@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "prod-git-shree"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
+		"GoogleBigQuery1_keyFileContent": {
+			"value": ""
+		},
+		"MySql1_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://shreeadlsstr.dfs.core.windows.net/"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"value": "0501-090155-e3zc940y"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "shree-sqlserver-db2.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "izdb"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "shreeadmin"
+		},
+		"MySql1_properties_typeProperties_server": {
+			"value": "35.223.80.16"
+		},
+		"MySql1_properties_typeProperties_database": {
+			"value": "telco_schema"
+		},
+		"MySql1_properties_typeProperties_username": {
+			"value": "inceptez"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "https://v6.exchangerate-api.com/v6/d2dc0f83029c12073054e204/latest/INR"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"value": "/subscriptions/168b44e9-f9bd-4db6-ab1a-e63105f21578/resourceGroups/wd36-rg1/providers/Microsoft.Storage/storageAccounts/telecomadlsacctdb"
+		},
+		"trigger2_properties_dataflow_param_adf_parameters_pipelineparam": {
+			"value": 3
+		},
+		"trigger2_properties_typeProperties_scope": {
+			"value": "/subscriptions/168b44e9-f9bd-4db6-ab1a-e63105f21578/resourceGroups/ShreeResource/providers/Microsoft.Storage/storageAccounts/shreeadlsstr"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
