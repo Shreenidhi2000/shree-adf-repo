@@ -1,0 +1,15 @@
+{
+	"name": "shree-adf-studio",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cf91cba3-d5da-41d9-93f9-a6c103a50baf",
+		"tenantId": "dfe13651-08a1-4f15-8b5b-1c2001b7c671"
+	}
+}

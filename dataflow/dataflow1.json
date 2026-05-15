@@ -1,0 +1,141 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable2",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "surrogateKey1"
+				},
+				{
+					"name": "cast1"
+				},
+				{
+					"name": "rank1"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     partitionparam as integer (2)",
+				"}",
+				"source(output(",
+				"          claim_id as string,",
+				"          patient_id as string,",
+				"          claim_amount as double,",
+				"          insurance_provider as string,",
+				"          claim_status as string,",
+				"          hospital_id as string,",
+				"          claim_date as timestamp,",
+				"          last_updated as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     enableCdc: true,",
+				"     mode: 'read',",
+				"     skipInitialLoad: false,",
+				"     waterMarkColumn: 'claim_id',",
+				"     batchSize: 2,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'select * from izdb.claims',",
+				"     format: 'query',",
+				"     partitionBy('roundRobin', ($partitionparam))) ~> source1",
+				"filter1 select(mapColumn(",
+				"          claim_id,",
+				"          patient_id,",
+				"          claim_amount,",
+				"          insurance_provider,",
+				"          claim_status,",
+				"          hos_id = hospital_id,",
+				"          claim_date,",
+				"          last_updated",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"source1 filter(!isNull(claim_status)) ~> filter1",
+				"select1 derive(load_dt = currentDate()) ~> derivedColumn1",
+				"derivedColumn1 keyGenerate(output(seq_num as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"surrogateKey1 cast(output(",
+				"          hos_id as string",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"filter1 rank(asc(hospital_id, true),",
+				"     caseInsensitive: true,",
+				"     output(rnk1_hos_id as long)) ~> rank1",
+				"rank1 aggregate(groupBy(insurance_provider),",
+				"     claim_amount = avg(claim_amount)) ~> aggregate1",
+				"aggregate1 alterRow(deleteIf(lesserOrEqual(claim_amount,1300))) ~> alterRow1",
+				"cast1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          call_id as string,",
+				"          caller_id as string,",
+				"          receiver_id as string,",
+				"          duration as string,",
+				"          call_type as string,",
+				"          tower_id as string,",
+				"          timestamp as string,",
+				"          cost as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:true,",
+				"     insertable:true,",
+				"     updateable:true,",
+				"     upsertable:true,",
+				"     keys:['claim_amount'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
+			]
+		}
+	}
+}

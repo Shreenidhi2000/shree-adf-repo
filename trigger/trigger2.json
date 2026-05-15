@@ -1,0 +1,28 @@
+{
+	"name": "trigger2",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "dataflow_param_adf",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"pipelineparam": 3
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/container1/blobs/",
+			"blobPathEndsWith": ".xlsx",
+			"ignoreEmptyBlobs": false,
+			"scope": "/subscriptions/168b44e9-f9bd-4db6-ab1a-e63105f21578/resourceGroups/ShreeResource/providers/Microsoft.Storage/storageAccounts/shreeadlsstr",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

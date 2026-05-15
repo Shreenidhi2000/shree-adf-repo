@@ -1,0 +1,18 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/container1/blobs/",
+			"blobPathEndsWith": ".xlsx",
+			"ignoreEmptyBlobs": false,
+			"scope": "/subscriptions/168b44e9-f9bd-4db6-ab1a-e63105f21578/resourceGroups/wd36-rg1/providers/Microsoft.Storage/storageAccounts/telecomadlsacctdb",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
